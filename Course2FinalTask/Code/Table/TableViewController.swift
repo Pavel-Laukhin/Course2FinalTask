@@ -64,19 +64,23 @@ class TableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        // Сохраняем позицию выбранной строки:
         currentlySelectedRow = indexPath
+        
+        // Делаем так, чтобы подсветка строки не выключалась сама по себе:
+        clearsSelectionOnViewWillAppear = false
+        
+        // Пушим контроллер с профилем пользователя:
         navigationController?.pushViewController(ProfileViewController(user: users[indexPath.row]), animated: true)
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
+    // Делаем так, чтобы подсветка строки не сразу исчезала, а с задержкой:
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         
-        // Делаем так, чтобы подсветка строки не сразу исчезала, а с задержкой:
         if let row = currentlySelectedRow {
-            tableView.cellForRow(at: row)?.backgroundColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
-            UIView.animate(withDuration: 0.6, delay: 0.1, options: .curveEaseIn, animations: {
-                self.tableView.cellForRow(at: row)?.backgroundColor = .clear
-            }, completion: nil)
+            tableView.deselectRow(at: row, animated: true)
         }
     }
     
