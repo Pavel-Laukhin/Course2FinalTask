@@ -146,6 +146,14 @@
 			path = Cells;
 			sourceTree = "<group>";
 		};
+		E986FD4524B8EEC300B07F0A /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				E9A23D7924B2045A0017BB7E /* ProfileFeedCell.swift */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
 		E9A23D7D24B2E6150017BB7E /* Table */ = {
 			isa = PBXGroup;
 			children = (
@@ -161,7 +169,7 @@
 				E9764D4124AE529B0073C8E7 /* ProfileViewController.swift */,
 				E9A23D7724B1F3BD0017BB7E /* ProfileViewController+DataSource.swift */,
 				E9A23D7B24B208E20017BB7E /* ProfileViewController+Delegate.swift */,
-				E9A23D7924B2045A0017BB7E /* ProfileFeedCell.swift */,
+				E986FD4524B8EEC300B07F0A /* Cell */,
 			);
 			path = Profile;
 			sourceTree = "<group>";

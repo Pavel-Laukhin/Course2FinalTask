@@ -24,6 +24,10 @@ extension FeedViewController: UICollectionViewDataSource {
         cell.backgroundColor = .white
         cell.post = DataProviders.shared.postsDataProvider.feed()[indexPath.item]
         cell.delegate = self
+        cell.callback = { [weak self] authorId in
+            let user = DataProviders.shared.usersDataProvider.user(with: authorId)
+            self?.navigationController?.pushViewController(ProfileViewController(user: user), animated: true)
+        }
         
         return cell
     }

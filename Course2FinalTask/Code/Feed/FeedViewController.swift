@@ -9,11 +9,13 @@
 import UIKit
 import DataProvider
 
+// Прописываем протокол, который позволит нам показывать страницу профиля и лист юзеров по переданному id профиля или поста:
 protocol TransitionProtocol: AnyObject {
     func showProfile(userId: User.Identifier)
     func showListOfUsersLikedThisPost(postId: Post.Identifier)
 }
 
+// Реализуем соответствие протоколу:
 extension FeedViewController: TransitionProtocol {
     func showListOfUsersLikedThisPost(postId: Post.Identifier) {
         var users: [User] = []

@@ -9,9 +9,18 @@
 import UIKit
 import DataProvider
 
+enum TransitionState {
+    case delegate, callback
+}
+
 final class FeedCell: UICollectionViewCell {
 
     var delegate: TransitionProtocol?
+    
+    // Реализация перехода с помощью колбэка (чисто для себя потестить, как это работает):
+    var callback: ((User.Identifier) -> Void)?
+    var transitionState: TransitionState = .callback
+    
     
     private var formatter: DateFormatter {
         let formatter = DateFormatter()
@@ -125,6 +134,18 @@ private extension FeedCell {
     private func addGestureRecognizer() {
         contentView.addGestureRecognizer(doubleTapGestureRecognizer)
         contentView.addGestureRecognizer(tapGestureRecognizer)
+        
+//        // Второй способ добавления распознавателя жестов:
+//        postImageView.addGestureRecognizer(doubleTapGestureRecognizer)
+//        // Эти методы надо создавать отдельно, так как один и тот же распознаватель будет работать лишь с тем вью, на который он был добавлен последним (почему-то именно так работает):
+//        avatarImageView.addGestureRecognizer(avatarTapGestureRecognizer)
+//        authorNameLabel.addGestureRecognizer(authorTapGestureRecognizer)
+//        numberOfLikesLabel.addGestureRecognizer(likedByTapGestureRecognizer)
+//        // Втрой способ требует включения этого свойства:
+//        postImageView.isUserInteractionEnabled = true
+//        avatarImageView.isUserInteractionEnabled = true
+//        authorNameLabel.isUserInteractionEnabled = true
+//        numberOfLikesLabel.isUserInteractionEnabled = true
     }
     
     // Теперь настроим фреймы:
@@ -218,7 +239,11 @@ private extension FeedCell {
         guard let post = post else { return }
         if avatarImageView.frame.contains(sender.location(in: contentView)) ||  authorNameLabel.frame.contains(sender.location(in: contentView)) {
             // Переход к страничке юзера:
-            delegate?.showProfile(userId: post.author)
+            if transitionState == .delegate {
+                delegate?.showProfile(userId: post.author)
+            } else {
+                callback?(post.author)
+            }
         }
         if numberOfLikesLabel.frame.contains(sender.location(in: contentView)) {
             // Переход к списку лайкнувших юзеров:
